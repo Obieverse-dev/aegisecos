@@ -22,7 +22,7 @@ body {
   color: var(--text-white);
   font-family: 'Inter', sans-serif;
   width: 100%;
-  margin: 0;
+  overflow-x: hidden; /* Prevents side-scrolling on mobile */
 }
 
 .app-container {
@@ -44,9 +44,7 @@ body {
   border-bottom: 1px solid var(--glass);
 }
 
-.logo { display: flex; align-items: center; gap: 12px; }
-.logo-img { height: 32px; width: auto; }
-.logo-text { font-weight: 800; letter-spacing: 2px; font-size: 1.4rem; }
+.logo-text { font-weight: 800; letter-spacing: 2px; font-size: 1.2rem; } /* Slightly smaller for mobile */
 .highlight { color: var(--lime-green); }
 
 .nav-links {
@@ -55,144 +53,92 @@ body {
   gap: 1.2rem;
 }
 
-.nav-links a {
-  color: var(--text-gray);
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-/* Hero */
+/* Hero Section */
 .hero {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 100vh;
-  padding: 0 5%;
-  width: 100%;
+  padding: 80px 5%; /* Top padding for navbar clearance */
 }
 
-.hero-content {
-  max-width: 850px;
-  margin: 0 auto;
-}
-
-h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
-.gradient-text {
-  background: linear-gradient(90deg, #4efdfd, var(--lime-green));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+h1 { 
+  font-size: clamp(2.5rem, 8vw, 4.5rem); /* Scales based on screen size */
+  line-height: 1.1; 
+  margin-bottom: 1.5rem; 
 }
 
 .hero-subtitle {
   color: var(--text-gray);
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 4vw, 1.2rem);
   max-width: 700px;
   margin: 0 auto 2.5rem;
-}
-
-.hero-cta {
-  display: inline-block;
-  margin-bottom: 3rem;
-  padding: 1rem 3rem;
-  font-size: 1.1rem;
-  border-radius: 8px;
 }
 
 .waitlist-card {
   background: var(--bg-charcoal);
   border: 1px solid rgba(255,255,255,0.1);
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 12px;
+  width: 100%;
   max-width: 450px;
   margin: 0 auto;
 }
 
-.input-group { text-align: left; margin-bottom: 1.5rem; }
-.input-group label { display: block; font-size: 0.8rem; margin-bottom: 8px; color: var(--text-gray); }
-input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; }
-
-/* Buttons */
-.btn-primary { background: var(--lime-green); color: #000; border: none; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor: pointer; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.full-width { width: 100%; }
-.btn-secondary { background: transparent; color: #fff; border: 1px solid #444; padding: 12px 24px; border-radius: 6px; cursor: pointer; }
-.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* Content sections */
-.content-section {
-  padding: 100px 5%;
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.content-section h2 {
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-}
-
-.content-section p {
-  color: var(--text-gray);
-  font-size: 1.1rem;
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-}
-
-.feature-grid {
-  display: flex;
+/* Feature & Pricing Grids */
+.feature-grid, .pricing-grid {
+  display: grid; /* Use Grid for better control */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Automatically wraps items */
   gap: 2rem;
-  justify-content: center;
-  flex-wrap: wrap;
   margin-top: 3rem;
+  width: 100%;
 }
 
-.feature {
+.feature, .price-card {
   background: var(--bg-charcoal);
   border: 1px solid var(--glass);
   border-radius: 12px;
   padding: 2rem;
-  width: 250px;
-}
-
-.feature h3 {
-  color: var(--lime-green);
-  margin-bottom: 0.8rem;
-}
-
-.feature p {
-  font-size: 0.9rem;
-  color: var(--text-gray);
-}
-
-/* Pricing */
-.pricing-section {
-  padding: 100px 5%;
-  text-align: center;
-  background: rgba(0,0,0,0.2);
-}
-
-.pricing-grid {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 3rem;
-  flex-wrap: wrap;
-}
-
-.price-card {
-  background: var(--bg-charcoal);
-  padding: 3rem;
-  border-radius: 16px;
-  width: 320px;
-  border: 1px solid var(--glass);
+  width: 100%; /* Take full width of grid cell */
 }
 
 .price-card.featured { border: 1px solid var(--lime-green); }
-.price { font-size: 2rem; font-weight: bold; margin: 1.5rem 0; color: var(--lime-green); }
-.price-card ul { list-style: none; margin-bottom: 2rem; color: var(--text-gray); font-size: 0.9rem; }
 
-/* Footer */
-.footer { padding: 4rem; text-align: center; border-top: 1px solid var(--glass); }
-.footer-links { margin-bottom: 1.5rem; }
-.footer-links a { color: var(--text-gray); text-decoration: none; margin: 0 1rem; font-size: 0.8rem; }
+/* --- MEDIA QUERIES --- */
+
+/* For Tablets and Mobile */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Usually hidden behind a hamburger menu on mobile */
+  }
+
+  .content-section {
+    padding: 60px 5%;
+  }
+
+  .content-section h2 {
+    font-size: 2rem;
+  }
+
+  .pricing-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .price-card {
+    max-width: 400px;
+  }
+}
+
+/* Small adjustments for very small phones */
+@media (max-width: 480px) {
+  .hero {
+    padding: 100px 5% 40px;
+  }
+  
+  .waitlist-card {
+    padding: 1.5rem;
+  }
+}
