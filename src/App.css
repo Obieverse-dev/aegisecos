@@ -54,20 +54,20 @@ body {
   font-size: 0.9rem;
 }
 
-/* Hero section now full viewport height and perfectly centred */
+/* Hero */
 .hero {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 100vh;       /* key fix */
-  padding: 0 5%;           /* removed vertical padding */
+  min-height: 100vh;
+  padding: 0 5%;
   width: 100%;
 }
 
 .hero-content {
   max-width: 850px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
@@ -80,9 +80,18 @@ h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
 .hero-subtitle {
   color: var(--text-gray);
   font-size: 1.2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   max-width: 700px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 2.5rem;
+}
+
+/* New CTA button – centred, large */
+.hero-cta {
+  display: inline-block;
+  margin-bottom: 3rem;        /* space before waitlist card */
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
 }
 
 .waitlist-card {
@@ -98,23 +107,60 @@ h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
 .input-group label { display: block; font-size: 0.8rem; margin-bottom: 8px; color: var(--text-gray); }
 input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; }
 
+/* Buttons */
 .btn-primary { background: var(--lime-green); color: #000; border: none; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor: pointer; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .full-width { width: 100%; }
 .btn-secondary { background: transparent; color: #fff; border: 1px solid #444; padding: 12px 24px; border-radius: 6px; cursor: pointer; }
 .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Placeholder sections for About and Platform */
-.placeholder-section {
+/* Content sections (About / Platform) */
+.content-section {
   padding: 100px 5%;
   text-align: center;
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 0 auto;
 }
 
+.content-section h2 {
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+}
+
+.content-section p {
+  color: var(--text-gray);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.feature-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+}
+
+.feature {
+  background: var(--bg-charcoal);
+  border: 1px solid var(--glass);
+  border-radius: 12px;
+  padding: 2rem;
+  width: 250px;
+}
+
+.feature h3 {
+  color: var(--lime-green);
+  margin-bottom: 0.8rem;
+}
+
+.feature p {
+  font-size: 0.9rem;
+  color: var(--text-gray);
+}
+
+/* Pricing */
 .pricing-section {
   padding: 100px 5%;
   text-align: center;
@@ -141,6 +187,7 @@ input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; co
 .price { font-size: 2rem; font-weight: bold; margin: 1.5rem 0; color: var(--lime-green); }
 .price-card ul { list-style: none; margin-bottom: 2rem; color: var(--text-gray); font-size: 0.9rem; }
 
+/* Footer */
 .footer { padding: 4rem; text-align: center; border-top: 1px solid var(--glass); }
 .footer-links { margin-bottom: 1.5rem; }
 .footer-links a { color: var(--text-gray); text-decoration: none; margin: 0 1rem; font-size: 0.8rem; }
