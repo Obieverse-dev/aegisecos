@@ -2,21 +2,22 @@
   --bg-dark: #0a0b10;
   --bg-charcoal: #16181d;
   --lime-green: #c0ff00;
-  --fuchsia: #ff00ff;
-  --violet: #8a2be2;
-  --orange: #ff8c00;
   --text-white: #ffffff;
   --text-gray: #a0a0a0;
   --glass: rgba(255, 255, 255, 0.03);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
 body {
   background-color: var(--bg-dark);
   color: var(--text-white);
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  margin: 0;
 }
 
 .app-container {
@@ -28,7 +29,6 @@ body {
   width: 100%;
 }
 
-/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -54,7 +54,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* Hero Centering Fix */
+/* Centering Fix: This ensures there is no gap on the right */
 .hero {
   display: flex;
   justify-content: center;
@@ -66,10 +66,10 @@ body {
 
 .hero-content {
   max-width: 850px;
-  margin: 0 auto;
+  margin: 0 auto; 
 }
 
-h1 { font-size: 4.5rem; line-height: 1; margin-bottom: 1.5rem; }
+h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
 .gradient-text {
   background: linear-gradient(90deg, #4efdfd, var(--lime-green));
   -webkit-background-clip: text;
@@ -81,11 +81,9 @@ h1 { font-size: 4.5rem; line-height: 1; margin-bottom: 1.5rem; }
   font-size: 1.2rem;
   margin-bottom: 3rem;
   max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 3rem;
 }
 
-/* Waitlist Card */
 .waitlist-card {
   background: var(--bg-charcoal);
   border: 1px solid rgba(255,255,255,0.1);
@@ -93,47 +91,21 @@ h1 { font-size: 4.5rem; line-height: 1; margin-bottom: 1.5rem; }
   border-radius: 12px;
   max-width: 450px;
   margin: 0 auto;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .input-group { text-align: left; margin-bottom: 1.5rem; }
 .input-group label { display: block; font-size: 0.8rem; margin-bottom: 8px; color: var(--text-gray); }
-input {
-  width: 100%;
-  padding: 12px;
-  background: #000;
-  border: 1px solid #333;
-  color: #fff;
-  border-radius: 4px;
-}
+input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; }
 
-/* Buttons */
-.btn-primary {
-  background: var(--lime-green);
-  color: #000;
-  border: none;
-  padding: 12px 24px;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
+.btn-primary { background: var(--lime-green); color: #000; border: none; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor: pointer; }
 .full-width { width: 100%; }
-
-.btn-secondary {
-  background: transparent;
-  color: #fff;
-  border: 1px solid #444;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-}
+.btn-secondary { background: transparent; color: #fff; border: 1px solid #444; padding: 12px 24px; border-radius: 6px; cursor: pointer; }
 
 /* Pricing Section Styles */
 .pricing-section {
   padding: 100px 5%;
   text-align: center;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.2);
 }
 
 .pricing-grid {
@@ -153,37 +125,9 @@ input {
 }
 
 .price-card.featured { border: 1px solid var(--lime-green); position: relative; }
-.badge {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: var(--lime-green); color: #000; padding: 4px 12px; 
-  font-size: 0.7rem; font-weight: bold; border-radius: 20px;
-}
-
 .price { font-size: 2rem; font-weight: bold; margin: 1.5rem 0; color: var(--lime-green); }
 .price-card ul { list-style: none; margin-bottom: 2rem; color: var(--text-gray); font-size: 0.9rem; }
-.price-card li { margin-bottom: 10px; }
-
-/* Pulse animation for badge */
-.pulse {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: var(--lime-green);
-  border-radius: 50%;
-  margin-right: 8px;
-  animation: pulse-animation 2s infinite;
-}
-
-@keyframes pulse-animation {
-  0% { box-shadow: 0 0 0 0 rgba(192, 255, 0, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(192, 255, 0, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(192, 255, 0, 0); }
-}
 
 .footer { padding: 4rem; text-align: center; border-top: 1px solid var(--glass); }
 .footer-links { margin-bottom: 1.5rem; }
 .footer-links a { color: var(--text-gray); text-decoration: none; margin: 0 1rem; font-size: 0.8rem; }
-
-@media (max-width: 768px) {
-  h1 { font-size: 2.8rem; }
-}
