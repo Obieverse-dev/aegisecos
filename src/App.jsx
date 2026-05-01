@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 // Ensure this filename matches exactly what is in your src/assets folder
-import logo from './assets/logo minimised.png'; 
+import logo from './assets/logo.svg'; 
 
 const App = () => {
   const [email, setEmail] = useState('');
