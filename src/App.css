@@ -54,13 +54,14 @@ body {
   font-size: 0.9rem;
 }
 
-/* Centering Fix: This ensures there is no gap on the right */
+/* Hero section now full viewport height and perfectly centred */
 .hero {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 100px 5%;
+  min-height: 100vh;       /* key fix */
+  padding: 0 5%;           /* removed vertical padding */
   width: 100%;
 }
 
@@ -98,10 +99,22 @@ h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
 input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; }
 
 .btn-primary { background: var(--lime-green); color: #000; border: none; padding: 12px 24px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .full-width { width: 100%; }
 .btn-secondary { background: transparent; color: #fff; border: 1px solid #444; padding: 12px 24px; border-radius: 6px; cursor: pointer; }
+.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Pricing Section Styles */
+/* Placeholder sections for About and Platform */
+.placeholder-section {
+  padding: 100px 5%;
+  text-align: center;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(0,0,0,0.1);
+}
+
 .pricing-section {
   padding: 100px 5%;
   text-align: center;
