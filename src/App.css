@@ -22,15 +22,10 @@ body {
   color: var(--text-white);
   font-family: 'Inter', sans-serif;
   width: 100%;
-  overflow-x: hidden; /* Prevents side-scrolling on mobile */
+  overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
 }
 
-.app-container {
-  min-height: 100vh;
-  width: 100%;
-}
-
-/* Navbar */
+/* Navbar - Stays constrained */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -44,8 +39,25 @@ body {
   border-bottom: 1px solid var(--glass);
 }
 
-.logo-text { font-weight: 800; letter-spacing: 2px; font-size: 1.2rem; } /* Slightly smaller for mobile */
-.highlight { color: var(--lime-green); }
+.logo { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  flex-shrink: 0; /* Keeps logo from being squished */
+}
+
+/* FIXED LOGO SIZE */
+.logo-img { 
+  height: 32px; 
+  width: auto; 
+  display: block; 
+}
+
+.logo-text { 
+  font-weight: 800; 
+  letter-spacing: 2px; 
+  font-size: clamp(1rem, 4vw, 1.4rem); 
+}
 
 .nav-links {
   display: flex;
@@ -53,25 +65,25 @@ body {
   gap: 1.2rem;
 }
 
-/* Hero Section */
+/* Hero - Content scales for mobile */
 .hero {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 100vh;
-  padding: 80px 5%; /* Top padding for navbar clearance */
+  padding: 80px 5%;
 }
 
 h1 { 
-  font-size: clamp(2.5rem, 8vw, 4.5rem); /* Scales based on screen size */
+  font-size: clamp(2.2rem, 10vw, 4.5rem); 
   line-height: 1.1; 
   margin-bottom: 1.5rem; 
 }
 
 .hero-subtitle {
   color: var(--text-gray);
-  font-size: clamp(1rem, 4vw, 1.2rem);
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
   max-width: 700px;
   margin: 0 auto 2.5rem;
 }
@@ -79,18 +91,18 @@ h1 {
 .waitlist-card {
   background: var(--bg-charcoal);
   border: 1px solid rgba(255,255,255,0.1);
-  padding: 2rem;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
   border-radius: 12px;
   width: 100%;
   max-width: 450px;
   margin: 0 auto;
 }
 
-/* Feature & Pricing Grids */
+/* Responsive Grids */
 .feature-grid, .pricing-grid {
-  display: grid; /* Use Grid for better control */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Automatically wraps items */
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   margin-top: 3rem;
   width: 100%;
 }
@@ -100,25 +112,17 @@ h1 {
   border: 1px solid var(--glass);
   border-radius: 12px;
   padding: 2rem;
-  width: 100%; /* Take full width of grid cell */
+  width: 100%; /* No longer fixed at 250px */
 }
 
-.price-card.featured { border: 1px solid var(--lime-green); }
-
-/* --- MEDIA QUERIES --- */
-
-/* For Tablets and Mobile */
+/* Media Queries for fine-tuning */
 @media (max-width: 768px) {
   .nav-links {
-    display: none; /* Usually hidden behind a hamburger menu on mobile */
+    display: none; /* Hide nav links on mobile for cleaner look */
   }
-
+  
   .content-section {
     padding: 60px 5%;
-  }
-
-  .content-section h2 {
-    font-size: 2rem;
   }
 
   .pricing-grid {
@@ -126,19 +130,8 @@ h1 {
     flex-direction: column;
     align-items: center;
   }
-
-  .price-card {
-    max-width: 400px;
-  }
-}
-
-/* Small adjustments for very small phones */
-@media (max-width: 480px) {
-  .hero {
-    padding: 100px 5% 40px;
-  }
   
-  .waitlist-card {
-    padding: 1.5rem;
+  .price-card {
+    max-width: 100%;
   }
 }
