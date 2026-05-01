@@ -11,10 +11,20 @@ const App = () => {
     if (email) setSubmitted(true);
   };
 
-  // Scrolls to the waitlist card when "Get Access" is clicked
+  // Scrolls to the waitlist card smoothly
   const scrollToWaitlist = () => {
     const card = document.querySelector('.waitlist-card');
     if (card) card.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Opens the user’s email client, or shows an alert if that fails
+  const handleContactSales = () => {
+    const mailto = 'mailto:sales@aegisecos.com?subject=Enterprise%20Inquiry';
+    try {
+      window.location.href = mailto;
+    } catch {
+      alert('Please email us at sales@aegisecos.com');
+    }
   };
 
   return (
@@ -29,7 +39,7 @@ const App = () => {
           <a href="#platform">Platform</a>
           <a href="#pricing">Pricing</a>
           <button className="btn-secondary" onClick={() => alert('Login coming soon')}>Login</button>
-          <button className="btn-primary" onClick={scrollToWaitlist}>Get Access</button>
+          {/* Removed the “Get Access” nav button – now a hero CTA */}
         </div>
       </nav>
 
@@ -41,7 +51,12 @@ const App = () => {
             The Zero Trust orchestration platform providing unified visibility and continuous 
             verification. Inspired by total awareness, built for ethical security.
           </p>
-          
+
+          {/* Prominent centred CTA */}
+          <button className="btn-primary hero-cta" onClick={scrollToWaitlist}>
+            Get Access
+          </button>
+
           <div className="waitlist-card">
             <h3>Join the Waitlist</h3>
             <form className="waitlist-form" onSubmit={handleSubmit}>
@@ -67,15 +82,39 @@ const App = () => {
         </div>
       </header>
 
-      {/* Added sections with matching ids for nav links */}
-      <section id="about" className="placeholder-section">
+      {/* About section with real content */}
+      <section id="about" className="content-section">
         <h2>About AegisecOS</h2>
-        <p>Detailed information about the platform will appear here.</p>
+        <p>
+          AegisecOS is a zero‑trust orchestration platform designed for organisations 
+          that demand continuous verification and unified visibility. We replace implicit 
+          trust with strict, context‑aware access policies, ensuring every connection is 
+          authenticated, authorised, and encrypted.
+        </p>
+        <p>
+          Born from the philosophy of “trust nothing, secure everything,” our platform 
+          empowers security teams to detect, respond, and adapt in real time — without 
+          sacrificing speed or user experience.
+        </p>
       </section>
 
-      <section id="platform" className="placeholder-section">
+      {/* Platform section with real content */}
+      <section id="platform" className="content-section">
         <h2>Platform Features</h2>
-        <p>Explore the core capabilities of AegisecOS.</p>
+        <div className="feature-grid">
+          <div className="feature">
+            <h3>Continuous Verification</h3>
+            <p>Every request is verified — no standing privileges, no assumed trust.</p>
+          </div>
+          <div className="feature">
+            <h3>Unified Visibility</h3>
+            <p>Gain a single‑pane‑of‑glass view across all users, devices, and workloads.</p>
+          </div>
+          <div className="feature">
+            <h3>Adaptive Policies</h3>
+            <p>Context‑based access that adjusts automatically to risk levels.</p>
+          </div>
+        </div>
       </section>
 
       <section id="pricing" className="pricing-section">
@@ -97,10 +136,7 @@ const App = () => {
               <li>Advanced Threat Detection</li>
               <li>24/7 Support</li>
             </ul>
-            <button 
-              className="btn-primary" 
-              onClick={() => window.location.href = 'mailto:sales@aegisecos.com'}
-            >
+            <button className="btn-primary" onClick={handleContactSales}>
               Contact Sales
             </button>
           </div>
