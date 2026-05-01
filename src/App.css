@@ -54,7 +54,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* FIXED: Hero Alignment */
+/* Hero Centering Fix */
 .hero {
   display: flex;
   justify-content: center;
@@ -66,7 +66,7 @@ body {
 
 .hero-content {
   max-width: 850px;
-  margin: 0 auto; /* This centers the block */
+  margin: 0 auto;
 }
 
 h1 { font-size: 4.5rem; line-height: 1; margin-bottom: 1.5rem; }
@@ -129,7 +129,7 @@ input {
   cursor: pointer;
 }
 
-/* Pricing Section */
+/* Pricing Section Styles */
 .pricing-section {
   padding: 100px 5%;
   text-align: center;
@@ -162,6 +162,23 @@ input {
 .price { font-size: 2rem; font-weight: bold; margin: 1.5rem 0; color: var(--lime-green); }
 .price-card ul { list-style: none; margin-bottom: 2rem; color: var(--text-gray); font-size: 0.9rem; }
 .price-card li { margin-bottom: 10px; }
+
+/* Pulse animation for badge */
+.pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--lime-green);
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% { box-shadow: 0 0 0 0 rgba(192, 255, 0, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(192, 255, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(192, 255, 0, 0); }
+}
 
 .footer { padding: 4rem; text-align: center; border-top: 1px solid var(--glass); }
 .footer-links { margin-bottom: 1.5rem; }
