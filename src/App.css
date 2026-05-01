@@ -14,9 +14,8 @@
 }
 
 /* Centres the body in the viewport */
-html {
-  display: flex;
-  justify-content: center;
+html, body {
+  height: 100%;
 }
 
 body {
@@ -32,7 +31,6 @@ body {
 }
 
 .app-container {
-  min-height: 100vh;
   width: 100%;
 }
 
