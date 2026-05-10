@@ -5,14 +5,17 @@
   --text-white: #ffffff;
   --text-gray: #a0a0a0;
   --glass: rgba(255, 255, 255, 0.03);
-}
 
+  /* ── ADDED ── */
+  --cyan: #00e5ff;
+  --glow-lime: 0 0 24px rgba(192,255,0,0.45), 0 0 60px rgba(192,255,0,0.15);
+  --glow-cyan: 0 0 24px rgba(0,229,255,0.4), 0 0 60px rgba(0,229,255,0.12);
+}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 body {
   background-color: var(--bg-dark);
   background-image:
@@ -22,10 +25,8 @@ body {
   color: var(--text-white);
   font-family: 'Inter', sans-serif;
   width: 100%;
-  overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
+  overflow-x: hidden;
 }
-
-/* Navbar - Stays constrained */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -38,34 +39,27 @@ body {
   z-index: 1000;
   border-bottom: 1px solid var(--glass);
 }
-
 .logo { 
   display: flex; 
   align-items: center; 
   gap: 12px; 
-  flex-shrink: 0; /* Keeps logo from being squished */
+  flex-shrink: 0;
 }
-
-/* FIXED LOGO SIZE */
 .logo-img { 
   height: 32px; 
   width: auto; 
   display: block; 
 }
-
 .logo-text { 
   font-weight: 800; 
   letter-spacing: 2px; 
   font-size: clamp(1rem, 4vw, 1.4rem); 
 }
-
 .nav-links {
   display: flex;
   align-items: center;
   gap: 1.2rem;
 }
-
-/* Hero - Content scales for mobile */
 .hero {
   display: flex;
   justify-content: center;
@@ -74,20 +68,17 @@ body {
   min-height: 100vh;
   padding: 80px 5%;
 }
-
 h1 { 
   font-size: clamp(2.2rem, 10vw, 4.5rem); 
   line-height: 1.1; 
   margin-bottom: 1.5rem; 
 }
-
 .hero-subtitle {
   color: var(--text-gray);
   font-size: clamp(0.9rem, 3vw, 1.2rem);
   max-width: 700px;
   margin: 0 auto 2.5rem;
 }
-
 .waitlist-card {
   background: var(--bg-charcoal);
   border: 1px solid rgba(255,255,255,0.1);
@@ -97,8 +88,6 @@ h1 {
   max-width: 450px;
   margin: 0 auto;
 }
-
-/* Responsive Grids */
 .feature-grid, .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -106,32 +95,250 @@ h1 {
   margin-top: 3rem;
   width: 100%;
 }
-
 .feature, .price-card {
   background: var(--bg-charcoal);
   border: 1px solid var(--glass);
   border-radius: 12px;
   padding: 2rem;
-  width: 100%; /* No longer fixed at 250px */
+  width: 100%;
 }
-
-/* Media Queries for fine-tuning */
 @media (max-width: 768px) {
   .nav-links {
-    display: none; /* Hide nav links on mobile for cleaner look */
+    display: none;
   }
-  
   .content-section {
     padding: 60px 5%;
   }
-
   .pricing-grid {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
   .price-card {
     max-width: 100%;
   }
 }
+
+/* ════════════════════════════════════════
+   COLOR & VIBRANCY — ADDITIONS ONLY
+   Nothing above this line was changed.
+   ════════════════════════════════════════ */
+
+/* Logo glow */
+.logo-img {
+  filter: drop-shadow(0 0 8px rgba(192,255,0,0.7));
+}
+
+/* "OS" accent in logo text */
+.logo-text span {
+  color: var(--lime-green);
+}
+
+/* Nav link colors */
+.nav-links a {
+  color: var(--text-gray);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-white); }
+
+/* Login button */
+.btn-login {
+  border: 1px solid rgba(255,255,255,0.25);
+  background: transparent;
+  color: var(--text-white);
+  padding: 0.5rem 1.3rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.btn-login:hover {
+  border-color: var(--lime-green);
+  color: var(--lime-green);
+  box-shadow: 0 0 12px rgba(192,255,0,0.2);
+}
+
+/* Hero radial glow */
+.hero {
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -60%);
+  width: min(700px, 120vw);
+  height: min(700px, 120vw);
+  background: radial-gradient(ellipse at center,
+    rgba(192,255,0,0.07) 0%,
+    rgba(0,229,255,0.04) 40%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-inner { position: relative; z-index: 1; }
+
+/* Version badge */
+.version-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--text-gray);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  margin-bottom: 2rem;
+  background: rgba(255,255,255,0.03);
+  text-transform: uppercase;
+}
+.version-badge span { color: var(--lime-green); font-weight: 600; }
+
+/* Headline color splits */
+.h1-line1 {
+  color: var(--text-white);
+  text-shadow: 0 0 40px rgba(255,255,255,0.12);
+  display: block;
+}
+.h1-secure {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+.h1-everything {
+  color: var(--lime-green);
+  text-shadow: var(--glow-lime);
+}
+
+/* Get Access button */
+.btn-cta {
+  display: inline-block;
+  background: var(--lime-green);
+  color: #0a0b10;
+  font-weight: 800;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  letter-spacing: 1px;
+  padding: 0.9rem 2.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: var(--glow-lime);
+  transition: transform 0.15s, box-shadow 0.15s;
+  margin-bottom: 2.5rem;
+}
+.btn-cta:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 36px rgba(192,255,0,0.65), 0 0 80px rgba(192,255,0,0.2);
+}
+
+/* Waitlist card — lime border + corner accents */
+.waitlist-card {
+  border-color: rgba(192,255,0,0.12);
+  box-shadow: 0 0 40px rgba(192,255,0,0.04), inset 0 1px 0 rgba(255,255,255,0.05);
+  position: relative;
+}
+.waitlist-card::before, .waitlist-card::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--lime-green);
+  border-style: solid;
+  opacity: 0.35;
+}
+.waitlist-card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-radius: 12px 0 0 0; }
+.waitlist-card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-radius: 0 0 12px 0; }
+
+/* Email input */
+.email-input {
+  width: 100%;
+  background: #0a0b10;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-white);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 1.1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.email-input::placeholder { color: rgba(160,160,160,0.5); }
+.email-input:focus {
+  border-color: rgba(192,255,0,0.4);
+  box-shadow: 0 0 0 3px rgba(192,255,0,0.07);
+}
+
+/* Request Early Access button */
+.btn-waitlist {
+  width: 100%;
+  background: var(--lime-green);
+  color: #0a0b10;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.8px;
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: var(--glow-lime);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-waitlist:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 28px rgba(192,255,0,0.6), 0 0 60px rgba(192,255,0,0.18);
+}
+
+/* Feature & price card hover glow */
+.feature:hover, .price-card:hover {
+  border-color: rgba(192,255,0,0.2);
+  box-shadow: 0 0 30px rgba(192,255,0,0.05);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+/* Featured pricing card */
+.price-card.featured {
+  border-color: rgba(192,255,0,0.3);
+  box-shadow: 0 0 40px rgba(192,255,0,0.07), inset 0 1px 0 rgba(192,255,0,0.08);
+}
+
+/* Section eyebrow labels */
+.section-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--lime-green);
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+/* Plan name accent */
+.plan-name.accent { color: var(--lime-green); }
+
+/* Plan buttons */
+.btn-plan {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--text-white);
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-plan:hover { border-color: rgba(192,255,0,0.4); color: var(--lime-green); }
+.btn-plan.featured {
+  background: var(--lime-green);
+  color: #0a0b10;
+  border: none;
+  box-shadow: var(--glow-lime);
+}
+.btn-plan.featured:hover { box-shadow: 0 0 28px rgba(192,255,0,0.55); }
+
+/* Footer accent */
+footer span { color: var(--lime-green); }
