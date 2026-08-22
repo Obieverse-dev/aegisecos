@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Rubik+Glitch&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root { --ink:#080a12; --surface:transparent; --panel:rgba(8,10,18,.24); --line:rgba(183,243,74,.24); --muted:#aab1c5; --text:#f4f5fb; --violet:#b7f34a; --cyan:#22d3ee; --lime:#b7f34a; }
 * { box-sizing:border-box; margin:0; padding:0; }
@@ -8,7 +8,7 @@ body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity
 a { color:inherit; }
 .app-container { max-width:1280px; margin:auto; padding:0 40px; position:relative; }
 .navbar { height:84px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; background:rgba(8,10,18,.18); backdrop-filter:blur(18px); }
-.brand { display:flex; align-items:center; gap:11px; text-decoration:none; font:700 16px 'Space Grotesk',sans-serif; letter-spacing:2px; }
+.brand { display:flex; align-items:center; gap:11px; text-decoration:none; font:400 19px 'Rubik Glitch',sans-serif; letter-spacing:1px; text-shadow:0 0 14px rgba(183,243,74,.35); }
 .brand img { width:29px; filter:drop-shadow(0 0 9px rgba(183,243,74,.8)); }
 .brand span span { color:var(--violet); }
 .nav-links { display:flex; align-items:center; gap:30px; font-size:13px; color:var(--muted); }
