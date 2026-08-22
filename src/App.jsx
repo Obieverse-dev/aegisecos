@@ -29,7 +29,7 @@ function TelemetryPanel() {
       </div>
       <div className="network-graph">
         <div className="graph-label"><span>NETWORK ACTIVITY</span><span>LAST 60 MIN</span></div>
-        <svg viewBox="0 0 400 140" preserveAspectRatio="none" role="img" aria-label="Network activity graph"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#8b5cf6" stopOpacity=".35" /><stop offset="1" stopColor="#8b5cf6" stopOpacity="0" /></linearGradient></defs><path d="M0 108 L38 96 L76 112 L112 62 L150 74 L188 40 L226 57 L264 22 L302 65 L340 42 L400 75 V140 H0Z" fill="url(#area)" /><polyline points="0,108 38,96 76,112 112,62 150,74 188,40 226,57 264,22 302,65 340,42 400,75" fill="none" stroke="#a78bfa" strokeWidth="2.5" /></svg>
+        <svg viewBox="0 0 400 140" preserveAspectRatio="none" role="img" aria-label="Network activity graph"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#b7f34a" stopOpacity=".35" /><stop offset="1" stopColor="#b7f34a" stopOpacity="0" /></linearGradient></defs><path d="M0 108 L38 96 L76 112 L112 62 L150 74 L188 40 L226 57 L264 22 L302 65 L340 42 L400 75 V140 H0Z" fill="url(#area)" /><polyline points="0,108 38,96 76,112 112,62 150,74 188,40 226,57 264,22 302,65 340,42 400,75" fill="none" stroke="#a78bfa" strokeWidth="2.5" /></svg>
       </div>
       <div className="live-logs"><div className="log-header">SYSTEM LOGS <span>STREAMING</span></div>{logs.map(([time, type, message]) => <div className="log-entry" key={time}><span className="log-time">{time}</span><span className={`log-type ${type.toLowerCase()}`}>[{type}]</span><span>{message}</span></div>)}</div>
     </aside>
