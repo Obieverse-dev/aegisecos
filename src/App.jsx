@@ -2,316 +2,57 @@ import React, { useState } from 'react';
 import './App.css';
 import logo from './assets/logo.svg';
 
-const App = () => {
+const modules = [
+  { icon: '◈', title: 'Continuous verification', copy: 'Every request is verified with context-aware policy checks across device health, identity, and network location.', value: '100%' },
+  { icon: '⌁', title: 'Unified visibility', copy: 'Correlate users, devices, and workloads in one operational view to surface anomalies before they spread.', value: '85%' },
+  { icon: '△', title: 'Adaptive policies', copy: 'Risk-aware access adjusts in real time, tightening controls without slowing down the people doing the work.', value: '92%' },
+];
+
+const logs = [
+  ['14:02:01', 'INFO', 'Node 44-A authenticated via MFA.'],
+  ['14:02:04', 'WARN', 'Anomalous traffic detected on port 8080.'],
+  ['14:02:08', 'INFO', 'Zero-trust handshake completed.'],
+];
+
+function Button({ children, primary = false, onClick, disabled = false }) {
+  return <button className={`button ${primary ? 'button-primary' : ''}`} onClick={onClick} disabled={disabled}>{children}<span aria-hidden="true">↗</span></button>;
+}
+
+function TelemetryPanel() {
+  return (
+    <aside className="telemetry-panel" aria-label="Live security telemetry">
+      <div className="panel-header"><span className="live-dot" /> LIVE TELEMETRY <span className="panel-status">SECURE / 24.7</span></div>
+      <div className="metrics-grid">
+        <div><span className="metric-label">THREAT LEVEL</span><strong className="metric-value success-text">LOW</strong></div>
+        <div><span className="metric-label">ACTIVE NODES</span><strong className="metric-value">14,092</strong></div>
+        <div><span className="metric-label">PACKETS / SEC</span><strong className="metric-value cyan-text">8.4M</strong></div>
+      </div>
+      <div className="network-graph">
+        <div className="graph-label"><span>NETWORK ACTIVITY</span><span>LAST 60 MIN</span></div>
+        <svg viewBox="0 0 400 140" preserveAspectRatio="none" role="img" aria-label="Network activity graph"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#8b5cf6" stopOpacity=".35" /><stop offset="1" stopColor="#8b5cf6" stopOpacity="0" /></linearGradient></defs><path d="M0 108 L38 96 L76 112 L112 62 L150 74 L188 40 L226 57 L264 22 L302 65 L340 42 L400 75 V140 H0Z" fill="url(#area)" /><polyline points="0,108 38,96 76,112 112,62 150,74 188,40 226,57 264,22 302,65 340,42 400,75" fill="none" stroke="#a78bfa" strokeWidth="2.5" /></svg>
+      </div>
+      <div className="live-logs"><div className="log-header">SYSTEM LOGS <span>STREAMING</span></div>{logs.map(([time, type, message]) => <div className="log-entry" key={time}><span className="log-time">{time}</span><span className={`log-type ${type.toLowerCase()}`}>[{type}]</span><span>{message}</span></div>)}</div>
+    </aside>
+  );
+}
+
+function App() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const handleSubmit = (event) => { event.preventDefault(); if (email.trim()) setSubmitted(true); };
+  const scrollToWaitlist = () => document.querySelector('.terminal-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const handleContactSales = () => { window.location.href = 'mailto:sales@aegisecos.com?subject=Enterprise%20Inquiry'; };
 
-  const generateMatrix = () => {
-    let str = '';
-    for (let i = 0; i < 2000; i++) {
-      str += Math.random().toString(16)[2].toUpperCase();
-      if (i % 80 === 0) str += ' ';
-    }
-    return str;
-  };
-  const [matrix] = useState(generateMatrix());
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email) setSubmitted(true);
-  };
-
-  const scrollToWaitlist = () => {
-    const card = document.querySelector('.terminal-card');
-    if (card) card.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleContactSales = () => {
-    const mailto = 'mailto:sales@aegisecos.com?subject=Enterprise%20Inquiry';
-    try {
-      window.location.href = mailto;
-    } catch {
-      alert('Please email us at sales@aegisecos.com');
-    }
-  };
-
-  return (
-    <div className="app-container">
-      <nav className="navbar">
-        <div className="logo">
-          <img src={logo} alt="AegisecOS Logo" className="logo-img" />
-          <span className="logo-text">AEGISEC<span className="highlight">OS</span></span>
-        </div>
-        <div className="nav-links">
-          <a href="#about">System Overview</a>
-          <a href="#platform">Architecture</a>
-          <a href="#pricing">Access Tiers</a>
-          <button className="btn-terminal" onClick={() => alert('Login coming soon')}>LOGIN</button>
-        </div>
-      </nav>
-
-      <header className="hero">
-        <div className="hero-bg-matrix">{matrix}</div>
-        
-        <div className="hero-left">
-          <div className="status-badge">
-            <span className="pulse-dot"></span> v0.1.0 EARLY ACCESS PHASE
-          </div>
-          <h1>
-            Trust Nothing. <br />
-            <span className="gradient-text">Secure Everything.</span>
-          </h1>
-          <p className="hero-subtitle">
-            The Zero Trust orchestration platform providing unified visibility and continuous 
-            verification. Engineered for total awareness, built for ethical security.
-          </p>
-
-          <button className="btn-terminal primary hero-cta" onClick={scrollToWaitlist}>
-            REQUEST ACCESS
-          </button>
-
-          <div className="terminal-card">
-            <div className="terminal-header">
-              <span className="terminal-dot red"></span>
-              <span className="terminal-dot yellow"></span>
-              <span className="terminal-dot green"></span>
-              <span className="terminal-title">access_request.sh</span>
-            </div>
-            <div className="terminal-body">
-              <div className="terminal-line">
-                <span className="prompt">root@aegisecos:~$</span> request_early_access
-              </div>
-              {submitted ? (
-                <div className="terminal-line success">
-                  <span className="prompt">></span> Access granted. You are on the waitlist.
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="terminal-form">
-                  <div className="terminal-line">
-                    <span className="prompt">></span> Enter work email:
-                  </div>
-                  <div className="terminal-input-group">
-                    <span className="prompt">></span>
-                    <input 
-                      type="email" 
-                      placeholder="name@company.com" 
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required 
-                      className="terminal-input"
-                    />
-                    <button type="submit" className="btn-terminal">EXECUTE</button>
-                  </div>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="hero-right">
-          <div className="telemetry-panel">
-            <div className="panel-header">
-              <span className="pulse-dot"></span> LIVE TELEMETRY
-              <span className="panel-status">SECURE</span>
-            </div>
-            
-            <div className="metrics-grid">
-              <div className="metric">
-                <span className="metric-label">THREAT LEVEL</span>
-                <span className="metric-value green">LOW</span>
-              </div>
-              <div className="metric">
-                <span className="metric-label">ACTIVE NODES</span>
-                <span className="metric-value">14,092</span>
-              </div>
-              <div className="metric">
-                <span className="metric-label">PACKETS / SEC</span>
-                <span className="metric-value cyan">8.4M</span>
-              </div>
-            </div>
-
-            <div className="network-graph">
-              <svg viewBox="0 0 300 100" className="graph-svg" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="var(--accent-lime)" stopOpacity="0.3"/>
-                    <stop offset="100%" stopColor="var(--accent-lime)" stopOpacity="0"/>
-                  </linearGradient>
-                </defs>
-                <polyline points="0,80 30,70 60,85 90,40 120,50 150,20 180,30 210,10 240,40 270,25 300,50" fill="none" stroke="var(--accent-lime)" strokeWidth="2" />
-                <polygon points="0,80 30,70 60,85 90,40 120,50 150,20 180,30 210,10 240,40 270,25 300,50 300,100 0,100" fill="url(#gradient)" />
-              </svg>
-            </div>
-
-            <div className="live-logs">
-              <div className="log-header">SYSTEM LOGS</div>
-              <div className="log-entry">
-                <span className="log-time">14:02:01</span>
-                <span className="log-type info">[INFO]</span>
-                <span className="log-msg">Node 44-A authenticated via MFA.</span>
-              </div>
-              <div className="log-entry">
-                <span className="log-time">14:02:04</span>
-                <span className="log-type warn">[WARN]</span>
-                <span className="log-msg">Anomalous traffic detected on port 8080.</span>
-              </div>
-              <div className="log-entry">
-                <span className="log-time">14:02:08</span>
-                <span className="log-type info">[INFO]</span>
-                <span className="log-msg">Zero-trust handshake completed.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <section id="about" className="section">
-        <div className="section-header">
-          <span className="section-tag">// SYSTEM_OVERVIEW</span>
-          <h2>About AegisecOS</h2>
-        </div>
-        <div className="about-grid">
-          <div className="about-text">
-            <p>
-              AegisecOS is a zero‑trust orchestration platform engineered for environments 
-              that demand continuous verification and unified visibility. We replace implicit 
-              trust with strict, context‑aware access policies, ensuring every connection is 
-              authenticated, authorised, and encrypted.
-            </p>
-            <p>
-              Born from the philosophy of “trust nothing, secure everything,” our platform 
-              empowers security teams to detect, respond, and adapt in real time — without 
-              sacrificing speed or user experience.
-            </p>
-          </div>
-          <div className="system-stats">
-            <div className="stat-item">
-              <div className="stat-number">99.99<span>%</span></div>
-              <div className="stat-label">UPTIME SLA</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">&lt;10<span>ms</span></div>
-              <div className="stat-label">VERIFICATION LATENCY</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">0<span>days</span></div>
-              <div className="stat-label">STANDING PRIVILEGES</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="platform" className="section">
-        <div className="section-header">
-          <span className="section-tag">// CORE_MODULES</span>
-          <h2>Platform Architecture</h2>
-        </div>
-        <div className="module-grid">
-          <div className="module-card">
-            <div className="module-header">
-              <div className="module-icon">◆</div>
-              <h3>Continuous Verification</h3>
-            </div>
-            <p>Every request is verified — no standing privileges, no assumed trust. Context-aware policies evaluate device health and network location in real-time.</p>
-            <div className="module-footer">
-              <span className="status-indicator active">ACTIVE</span>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{width: '100%'}}></div>
-              </div>
-            </div>
-          </div>
-          <div className="module-card">
-            <div className="module-header">
-              <div className="module-icon">⬢</div>
-              <h3>Unified Visibility</h3>
-            </div>
-            <p>Gain a single‑pane‑of‑glass view across all users, devices, and workloads. Correlate telemetry data instantly to identify and isolate anomalies.</p>
-            <div className="module-footer">
-              <span className="status-indicator active">ACTIVE</span>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{width: '85%'}}></div>
-              </div>
-            </div>
-          </div>
-          <div className="module-card">
-            <div className="module-header">
-              <div className="module-icon">▲</div>
-              <h3>Adaptive Policies</h3>
-            </div>
-            <p>Context‑based access that adjusts automatically to risk levels. Machine learning models dynamically tighten or relax access based on behavioral baselines.</p>
-            <div className="module-footer">
-              <span className="status-indicator active">ACTIVE</span>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{width: '92%'}}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="pricing" className="section">
-        <div className="section-header">
-          <span className="section-tag">// ACCESS_TIERS</span>
-          <h2>Deployment Models</h2>
-        </div>
-        <div className="tier-grid">
-          <div className="tier-card">
-            <div className="tier-header">
-              <span className="tier-level">TIER 01</span>
-              <h3>Early Access</h3>
-            </div>
-            <div className="tier-price">INVITE ONLY</div>
-            <ul className="tier-features">
-              <li><span className="check">✓</span> Core Zero Trust Engine</li>
-              <li><span className="check">✓</span> Unified Visibility Dashboard</li>
-              <li><span className="check">✓</span> Community Support</li>
-            </ul>
-            <button className="btn-terminal" disabled>AWAITING CLEARANCE</button>
-          </div>
-          <div className="tier-card featured">
-            <div className="scan-line"></div>
-            <div className="tier-header">
-              <span className="tier-level">TIER 02</span>
-              <h3>Enterprise</h3>
-            </div>
-            <div className="tier-price">CUSTOM</div>
-            <ul className="tier-features">
-              <li><span className="check">✓</span> Advanced Threat Detection</li>
-              <li><span className="check">✓</span> Adaptive Policy Engine</li>
-              <li><span className="check">✓</span> 24/7 Dedicated SOC Support</li>
-              <li><span className="check">✓</span> On-Premise Deployment</li>
-            </ul>
-            <button className="btn-terminal primary" onClick={handleContactSales}>INITIATE CONTACT</button>
-          </div>
-        </div>
-      </section>
-
-      <footer className="footer">
-        <div className="footer-grid">
-          <div className="footer-col">
-            <h4>AEGISECOS</h4>
-            <p>Trust Nothing. Secure Everything.</p>
-          </div>
-          <div className="footer-col">
-            <h4>PROTOCOLS</h4>
-            <a href="#about">System Overview</a>
-            <a href="#platform">Architecture</a>
-            <a href="#pricing">Access Tiers</a>
-          </div>
-          <div className="footer-col">
-            <h4>COMMS</h4>
-            <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/aegisecos-undefined-b420b5376/" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="mailto:contact@aegisecos.com">contact@aegisecos.com</a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>&copy; 2026 AegisecOS. All rights reserved.</span>
-          <span className="system-status">SYSTEM STATUS: <span className="green">ONLINE</span></span>
-        </div>
-      </footer>
-    </div>
-  );
-};
+  return <div className="app-container">
+    <nav className="navbar"><a className="brand" href="#top" aria-label="AegisecOS home"><img src={logo} alt="" /><span>AEGIS<span>ECOS</span></span></a><div className="nav-links"><a href="#about">Overview</a><a href="#platform">Architecture</a><a href="#pricing">Access tiers</a><button className="login-button" onClick={() => alert('Login coming soon')}>Login <span>↗</span></button></div></nav>
+    <main id="top">
+      <section className="hero"><div className="hero-copy"><div className="eyebrow"><span className="live-dot" /> v0.1.0 / EARLY ACCESS PHASE</div><h1>Trust nothing.<br /><em>Secure everything.</em></h1><p className="hero-subtitle">A zero-trust orchestration layer for teams that need total awareness, continuous verification, and security that moves at the speed of their business.</p><div className="hero-actions"><Button primary onClick={scrollToWaitlist}>Request access</Button><a className="text-link" href="#platform">Explore the platform <span>↓</span></a></div><div className="terminal-card"><div className="terminal-header"><span className="window-dots"><i /><i /><i /></span><span>access_request.sh</span><span className="terminal-lock">ENCRYPTED</span></div><div className="terminal-body"><div><span className="prompt">root@aegisecos:~$</span> request_early_access</div>{submitted ? <div className="terminal-success"><span className="prompt">&gt;</span> Access granted. You are on the waitlist.</div> : <form onSubmit={handleSubmit}><div><span className="prompt">&gt;</span> Enter work email:</div><div className="input-row"><span className="prompt">&gt;</span><input type="email" placeholder="name@company.com" value={email} onChange={(event) => setEmail(event.target.value)} required aria-label="Work email" /><button type="submit">Execute <span>↗</span></button></div></form>}</div></div></div><TelemetryPanel /></section>
+      <section id="about" className="section overview"><div className="section-heading"><span className="section-tag">01 / SYSTEM OVERVIEW</span><h2>Security without<br /><span>blind spots.</span></h2></div><div className="overview-content"><div><p>AegisecOS replaces implicit trust with strict, context-aware access policies. Every connection is authenticated, authorized, and encrypted — continuously.</p><p>Built for modern environments, our platform gives security teams a clear signal through the noise, so they can detect, respond, and adapt in real time.</p></div><div className="stats"><div><strong>99.99<small>%</small></strong><span>UPTIME SLA</span></div><div><strong>&lt;10<small>ms</small></strong><span>VERIFICATION LATENCY</span></div><div><strong>0<small>days</small></strong><span>STANDING PRIVILEGES</span></div></div></div></section>
+      <section id="platform" className="section"><div className="section-heading split-heading"><div><span className="section-tag">02 / CORE MODULES</span><h2>One control plane.<br /><span>Every signal.</span></h2></div><p>Three primitives for a security posture that stays ahead of risk.</p></div><div className="module-grid">{modules.map((module, index) => <article className="module-card" key={module.title}><div className="module-top"><span className="module-icon">{module.icon}</span><span className="module-index">0{index + 1}</span></div><h3>{module.title}</h3><p>{module.copy}</p><div className="module-footer"><span>OPERATIONAL</span><div className="progress"><i style={{ width: module.value }} /></div><b>{module.value}</b></div></article>)}</div></section>
+      <section id="pricing" className="section pricing"><div className="section-heading"><span className="section-tag">03 / ACCESS TIERS</span><h2>Deploy on<br /><span>your terms.</span></h2></div><div className="tier-grid"><article className="tier-card"><span className="tier-level">TIER 01 / INVITE ONLY</span><h3>Early access</h3><strong>Private beta</strong><ul><li>Core zero-trust engine</li><li>Unified visibility dashboard</li><li>Community support</li></ul><Button disabled>Awaiting clearance</Button></article><article className="tier-card featured"><span className="featured-label">RECOMMENDED</span><span className="tier-level">TIER 02 / CUSTOM DEPLOYMENT</span><h3>Enterprise</h3><strong>Built to scale</strong><ul><li>Advanced threat detection</li><li>Adaptive policy engine</li><li>24/7 dedicated SOC support</li><li>On-premise deployment</li></ul><Button primary onClick={handleContactSales}>Initiate contact</Button></article></div></section>
+    </main>
+    <footer className="footer"><div className="footer-grid"><div><a className="brand" href="#top"><img src={logo} alt="" /><span>AEGIS<span>ECOS</span></span></a><p>Trust nothing. Secure everything.</p></div><div><h4>Protocols</h4><a href="#about">System overview</a><a href="#platform">Architecture</a><a href="#pricing">Access tiers</a></div><div><h4>Comms</h4><a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/aegisecos-undefined-b420b5376/" target="_blank" rel="noreferrer">LinkedIn</a><a href="mailto:contact@aegisecos.com">contact@aegisecos.com</a></div></div><div className="footer-bottom"><span>© 2026 AegisecOS. All rights reserved.</span><span>SYSTEM STATUS: <b>ONLINE</b></span></div></footer>
+  </div>;
+}
 
 export default App;
