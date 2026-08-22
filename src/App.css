@@ -3,7 +3,7 @@
 :root { --ink:#080a12; --surface:transparent; --panel:rgba(8,10,18,.24); --line:rgba(167,139,250,.24); --muted:#aab1c5; --text:#f4f5fb; --violet:#8b5cf6; --cyan:#22d3ee; --lime:#b7f34a; }
 * { box-sizing:border-box; margin:0; padding:0; }
 html { scroll-behavior:smooth; }
-body { background-color:var(--ink); background-image:linear-gradient(rgba(8,10,18,.36),rgba(8,10,18,.58)),url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202026-08-22%20162654%20%281%29-LUDepifcG3CVKdLneJxMxjEPdpuzEN.png'); background-position:center top; background-size:auto 56.25vw; background-repeat:no-repeat; background-attachment:fixed; color:var(--text); font-family:'DM Sans',sans-serif; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+body { background-color:var(--ink); background-image:linear-gradient(rgba(8,10,18,.36),rgba(8,10,18,.58)),url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202026-08-22%20181158-xfCKRJ8m4HZPg8RiLVHP9nnfN7EHr8.png'); background-position:center top; background-size:100% auto; background-repeat:no-repeat; background-attachment:fixed; color:var(--text); font-family:'DM Sans',sans-serif; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
 body::before { content:''; position:fixed; inset:0; pointer-events:none; opacity:.5; background-image:linear-gradient(rgba(139,92,246,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.045) 1px,transparent 1px); background-size:54px 54px; mask-image:linear-gradient(to bottom,black,transparent 75%); }
 a { color:inherit; }
 .app-container { max-width:1280px; margin:auto; padding:0 40px; position:relative; }
