@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import logo from './assets/logo.svg';
+import logo from './assets/logo_minimised-removebg-preview.svg';
 
 const modules = [
   { icon: '◈', title: 'Continuous verification', copy: 'Every request is verified with context-aware policy checks across device health, identity, and network location.', value: '100%' },
