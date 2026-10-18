@@ -21,6 +21,21 @@ const SOCIAL_LINKS = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aegisecos-undefined-b420b5376/' },
 ];
  
+// Hero rail. Each item should describe something the product really does.
+const CAPABILITIES = [
+  { icon: 'zero', title: 'Zero trust', detail: 'No unauthorized access.' },
+  { icon: 'lock', title: 'Encryption', detail: 'Data stays yours.' },
+  { icon: 'eye', title: 'Anonymity', detail: 'Your identity. Hidden.' },
+  { icon: 'device', title: 'Device bound', detail: 'Protection that travels with you.' },
+];
+ 
+// Hero side panel, taken from the overview copy further down the page.
+const ASSURANCES = [
+  'Authenticated on every request',
+  'Authorized by context',
+  'Encrypted, continuously',
+];
+ 
 const MODULES = [
   {
     title: 'Continuous verification',
@@ -69,25 +84,6 @@ const TIERS = [
   },
 ];
  
-// Illustration only. It shows how one access decision is made and is
-// labelled as an example on the page, so it is never mistaken for live data.
-const DECISION_EXAMPLE = {
-  request: [
-    ['Subject', 'analyst-014'],
-    ['Resource', 'finance-db'],
-    ['Action', 'Read'],
-  ],
-  checks: [
-    { name: 'Identity', detail: 'Signed in with MFA', result: 'pass' },
-    { name: 'Device', detail: 'Patched and disk-encrypted', result: 'pass' },
-    { name: 'Network', detail: 'First sign-in from this location', result: 'review' },
-  ],
-  outcome: {
-    title: 'Step-up required',
-    detail: 'The user re-authenticates before access is granted.',
-  },
-};
- 
 /* Real people and real customers build trust. These sections only render
    once you add entries, so nothing placeholder ever ships.
    TEAM:          { name, role, bio?, photo?, linkedin? }
@@ -96,8 +92,9 @@ const TEAM = [];
 const CASE_STUDIES = [];
  
 const NAV_LINKS = [
-  { label: 'Overview', href: '#overview' },
+  { label: 'Home', href: '#top' },
   { label: 'Platform', href: '#platform' },
+  { label: 'About', href: '#about' },
   ...(TEAM.length ? [{ label: 'Team', href: '#team' }] : []),
   ...(CASE_STUDIES.length ? [{ label: 'Case studies', href: '#case-studies' }] : []),
   { label: 'Access', href: '#access' },
@@ -108,14 +105,32 @@ const NAV_LINKS = [
    Small presentational pieces
 ------------------------------------------------------------------- */
 const ICON_PATHS = {
-  check: <path d="M5 12l5 5 9-10" />,
-  review: (
+  zero: (
     <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7.5v5.5" />
-      <path d="M12 16.5v.01" />
+      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" />
+      <path d="M9 12l2 2 4-4" />
     </>
   ),
+  lock: (
+    <>
+      <rect x="5" y="11" width="14" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M4 20L20 4" />
+    </>
+  ),
+  device: (
+    <>
+      <rect x="7" y="3" width="10" height="18" rx="2" />
+      <path d="M11 18h2" />
+    </>
+  ),
+  check: <path d="M5 12l5 5 9-10" />,
 };
  
 function Icon({ name }) {
@@ -125,7 +140,7 @@ function Icon({ name }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="1.75"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
@@ -136,51 +151,78 @@ function Icon({ name }) {
   );
 }
  
-/* Hero artwork: a record of one access decision, read top to bottom as
-   request, checks, decision. Plain HTML so it stays sharp and readable. */
-function DecisionRecord() {
-  const { request, checks, outcome } = DECISION_EXAMPLE;
+function Brand({ tagline = false }) {
   return (
-    <figure className="record" aria-label="Example of one access decision">
-      <figcaption className="record-head">
-        <span>Example access decision</span>
-        <span className="tag">Illustration</span>
-      </figcaption>
+    <a className="brand" href="#top" aria-label="AegisecOS home">
+      <img src={logo} alt="" width="36" height="36" />
+      <span className="brand-text">
+        <strong>AegisecOS</strong>
+        {tagline && <small>Watchful eye, reimagined.</small>}
+      </span>
+    </a>
+  );
+}
  
-      <div className="record-block">
-        <p className="record-label">Request</p>
-        <dl className="record-request">
-          {request.map(([term, value]) => (
-            <div key={term}>
-              <dt>{term}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+/* Hero artwork: the AegisecOS mark in a medallion, inside a protective
+   dome and an orbital ring. Static and decorative. */
+function Emblem() {
+  return (
+    <div className="emblem" aria-hidden="true">
+      <svg viewBox="0 0 640 380" focusable="false">
+        <defs>
+          <radialGradient id="glowFill" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stopColor="#27e481" stopOpacity="0.35" />
+            <stop offset="1" stopColor="#27e481" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="domeFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#27e481" stopOpacity="0.02" />
+            <stop offset="1" stopColor="#27e481" stopOpacity="0.14" />
+          </linearGradient>
+          <radialGradient id="coreFill" cx="50%" cy="40%" r="65%">
+            <stop offset="0" stopColor="#0f4a2d" />
+            <stop offset="1" stopColor="#051610" />
+          </radialGradient>
+          <radialGradient id="groundFill" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stopColor="#27e481" stopOpacity="0.28" />
+            <stop offset="1" stopColor="#27e481" stopOpacity="0" />
+          </radialGradient>
+        </defs>
  
-      <div className="record-block">
-        <p className="record-label">Checks</p>
-        <ul className="record-checks">
-          {checks.map((check) => (
-            <li className={`check check-${check.result}`} key={check.name}>
-              <Icon name={check.result === 'pass' ? 'check' : 'review'} />
-              <div>
-                <strong>{check.name}</strong>
-                <span>{check.detail}</span>
-              </div>
-              <span className="check-result">{check.result === 'pass' ? 'Passed' : 'Needs review'}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+        {/* Ground */}
+        <ellipse cx="320" cy="338" rx="300" ry="34" fill="url(#groundFill)" />
+        <ellipse cx="320" cy="338" rx="230" ry="20" fill="none" stroke="#27e481" strokeOpacity="0.28" />
+        <ellipse cx="320" cy="338" rx="160" ry="13" fill="none" stroke="#27e481" strokeOpacity="0.22" />
  
-      <div className="record-block record-outcome">
-        <p className="record-label">Decision</p>
-        <strong>{outcome.title}</strong>
-        <p>{outcome.detail}</p>
-      </div>
-    </figure>
+        {/* Dome */}
+        <path
+          d="M100 338A220 250 0 0 1 540 338Z"
+          fill="url(#domeFill)"
+          stroke="#27e481"
+          strokeOpacity="0.4"
+          strokeWidth="1.5"
+        />
+        <path d="M130 338A190 215 0 0 1 510 338" fill="none" stroke="#27e481" strokeOpacity="0.2" />
+ 
+        {/* Glow and ring (back half) */}
+        <circle cx="320" cy="215" r="150" fill="url(#glowFill)" />
+        <ellipse cx="320" cy="215" rx="190" ry="42" fill="none" stroke="#27e481" strokeOpacity="0.25" />
+        <ellipse cx="320" cy="215" rx="175" ry="36" fill="none" stroke="#27e481" strokeOpacity="0.75" strokeWidth="3" />
+ 
+        {/* Stem to the ground */}
+        <path d="M320 299V332" stroke="#27e481" strokeOpacity="0.35" />
+ 
+        {/* Medallion and mark */}
+        <circle cx="320" cy="215" r="84" fill="url(#coreFill)" stroke="#27e481" strokeOpacity="0.6" strokeWidth="1.5" />
+        <circle cx="320" cy="215" r="68" fill="none" stroke="#27e481" strokeOpacity="0.25" />
+        <image href={logo} x="268" y="163" width="104" height="104" preserveAspectRatio="xMidYMid meet" />
+ 
+        {/* Ring (front half) and nodes */}
+        <path d="M145 215A175 36 0 0 0 495 215" fill="none" stroke="#27e481" strokeOpacity="0.95" strokeWidth="3" />
+        <circle cx="145" cy="215" r="4" fill="#27e481" />
+        <circle cx="495" cy="215" r="4" fill="#27e481" />
+        <circle cx="320" cy="251" r="4" fill="#27e481" />
+      </svg>
+    </div>
   );
 }
  
@@ -219,10 +261,7 @@ function App() {
  
       <header className="site-header">
         <div className="container header-inner">
-          <a className="brand" href="#top" aria-label="AegisecOS home">
-            <img src={logo} alt="" width="28" height="28" />
-            <span>AegisecOS</span>
-          </a>
+          <Brand tagline />
  
           <button
             type="button"
@@ -247,31 +286,67 @@ function App() {
           </nav>
  
           <a className="btn btn-primary btn-sm header-cta" href="#contact">
-            Request access
+            Get started
           </a>
         </div>
       </header>
  
       <main id="main">
         <section className="hero">
-          <div className="container hero-grid">
+          <div className="container">
             <div className="hero-copy">
-              <h1>Trust nothing. Secure everything.</h1>
+              <p className="badge">Next-gen security OS</p>
+              <h1>
+                <span>More than security.</span>
+                <span className="accent">Total control.</span>
+              </h1>
               <p className="lead">
-                A zero-trust orchestration layer for teams that need total awareness, continuous
-                verification, and security that moves at the speed of their business.
+                AegisecOS blends zero trust, advanced encryption and intelligent privacy layers —
+                giving you the freedom to move, work and explore without limits.
               </p>
               <div className="hero-actions">
-                <a className="btn btn-primary" href="#contact">
-                  Request access
+                <a className="btn btn-primary" href="#platform">
+                  Explore AegisecOS
                 </a>
-                <a className="btn btn-secondary" href="#platform">
-                  See how it works
+                <a className="btn btn-secondary" href="#about">
+                  Read the overview
                 </a>
               </div>
-              <p className="hero-note">Private beta, version 0.1.0.</p>
             </div>
-            <DecisionRecord />
+ 
+            <div className="stage">
+              <aside className="panel rail" aria-label="Core capabilities">
+                <ul>
+                  {CAPABILITIES.map((item) => (
+                    <li key={item.title}>
+                      <a className="rail-item" href="#platform">
+                        <span className="rail-icon">
+                          <Icon name={item.icon} />
+                        </span>
+                        <span>
+                          <strong>{item.title}</strong>
+                          <span className="rail-detail">{item.detail}</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+ 
+              <Emblem />
+ 
+              <aside className="panel assurances" aria-label="Built into every connection">
+                <p className="panel-title">Built into every connection</p>
+                <ul>
+                  {ASSURANCES.map((line) => (
+                    <li key={line}>
+                      <Icon name="check" />
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            </div>
           </div>
         </section>
  
@@ -286,7 +361,7 @@ function App() {
           </dl>
         </section>
  
-        <section id="overview" className="section">
+        <section id="about" className="section">
           <div className="container split">
             <h2>Security without blind spots.</h2>
             <div className="prose">
@@ -325,7 +400,7 @@ function App() {
               <div className="split split-head">
                 <h2>The people behind AegisecOS.</h2>
               </div>
-              <ul className="team-grid">
+              <ul className="card-grid">
                 {TEAM.map((member) => (
                   <li className="panel" key={member.name}>
                     {member.photo && (
@@ -352,7 +427,7 @@ function App() {
               <div className="split split-head">
                 <h2>Results from real deployments.</h2>
               </div>
-              <ul className="team-grid">
+              <ul className="card-grid">
                 {CASE_STUDIES.map((study) => (
                   <li className="panel" key={study.title}>
                     <p className="muted">{study.client}</p>
@@ -456,11 +531,8 @@ function App() {
       <footer className="site-footer">
         <div className="container footer-grid">
           <div>
-            <a className="brand" href="#top" aria-label="AegisecOS home">
-              <img src={logo} alt="" width="28" height="28" />
-              <span>AegisecOS</span>
-            </a>
-            <p className="muted">Trust nothing. Secure everything.</p>
+            <Brand />
+            <p className="muted">Watchful eye, reimagined.</p>
           </div>
  
           <div>
