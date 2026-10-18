@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import logo from './assets/logo_minimised-removebg-preview.svg';
+import emblemMark from './assets/aegisecos-emblem.webp';
  
 /* ------------------------------------------------------------------
    Site configuration. Edit content here rather than in the markup.
@@ -163,8 +164,8 @@ function Brand({ tagline = false }) {
   );
 }
  
-/* Hero artwork: the AegisecOS mark in a medallion, inside a protective
-   dome and an orbital ring. Static and decorative. */
+/* Hero artwork: the AegisecOS shield inside a protective dome and an
+   orbital ring. Static and decorative. */
 function Emblem() {
   return (
     <div className="emblem" aria-hidden="true">
@@ -178,10 +179,6 @@ function Emblem() {
             <stop offset="0" stopColor="#27e481" stopOpacity="0.02" />
             <stop offset="1" stopColor="#27e481" stopOpacity="0.14" />
           </linearGradient>
-          <radialGradient id="coreFill" cx="50%" cy="40%" r="65%">
-            <stop offset="0" stopColor="#0f4a2d" />
-            <stop offset="1" stopColor="#051610" />
-          </radialGradient>
           <radialGradient id="groundFill" cx="50%" cy="50%" r="50%">
             <stop offset="0" stopColor="#27e481" stopOpacity="0.28" />
             <stop offset="1" stopColor="#27e481" stopOpacity="0" />
@@ -209,12 +206,10 @@ function Emblem() {
         <ellipse cx="320" cy="215" rx="175" ry="36" fill="none" stroke="#27e481" strokeOpacity="0.75" strokeWidth="3" />
  
         {/* Stem to the ground */}
-        <path d="M320 299V332" stroke="#27e481" strokeOpacity="0.35" />
+        <path d="M320 310V332" stroke="#27e481" strokeOpacity="0.35" />
  
-        {/* Medallion and mark */}
-        <circle cx="320" cy="215" r="84" fill="url(#coreFill)" stroke="#27e481" strokeOpacity="0.6" strokeWidth="1.5" />
-        <circle cx="320" cy="215" r="68" fill="none" stroke="#27e481" strokeOpacity="0.25" />
-        <image href={logo} x="268" y="163" width="104" height="104" preserveAspectRatio="xMidYMid meet" />
+        {/* The shield */}
+        <image href={emblemMark} x="243" y="120" width="154" height="190" preserveAspectRatio="xMidYMid meet" />
  
         {/* Ring (front half) and nodes */}
         <path d="M145 215A175 36 0 0 0 495 215" fill="none" stroke="#27e481" strokeOpacity="0.95" strokeWidth="3" />
