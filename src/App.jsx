@@ -23,17 +23,14 @@ const SOCIAL_LINKS = [
  
 const MODULES = [
   {
-    icon: 'verify',
     title: 'Continuous verification',
     copy: 'Every request is verified with context-aware policy checks across device health, identity, and network location.',
   },
   {
-    icon: 'visibility',
     title: 'Unified visibility',
     copy: 'Correlate users, devices, and workloads in one operational view to surface anomalies before they spread.',
   },
   {
-    icon: 'policy',
     title: 'Adaptive policies',
     copy: 'Risk-aware access adjusts in real time, tightening controls without slowing down the people doing the work.',
   },
@@ -72,6 +69,25 @@ const TIERS = [
   },
 ];
  
+// Illustration only. It shows how one access decision is made and is
+// labelled as an example on the page, so it is never mistaken for live data.
+const DECISION_EXAMPLE = {
+  request: [
+    ['Subject', 'analyst-014'],
+    ['Resource', 'finance-db'],
+    ['Action', 'Read'],
+  ],
+  checks: [
+    { name: 'Identity', detail: 'Signed in with MFA', result: 'pass' },
+    { name: 'Device', detail: 'Patched and disk-encrypted', result: 'pass' },
+    { name: 'Network', detail: 'First sign-in from this location', result: 'review' },
+  ],
+  outcome: {
+    title: 'Step-up required',
+    detail: 'The user re-authenticates before access is granted.',
+  },
+};
+ 
 /* Real people and real customers build trust. These sections only render
    once you add entries, so nothing placeholder ever ships.
    TEAM:          { name, role, bio?, photo?, linkedin? }
@@ -92,26 +108,14 @@ const NAV_LINKS = [
    Small presentational pieces
 ------------------------------------------------------------------- */
 const ICON_PATHS = {
-  verify: (
-    <>
-      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" />
-      <path d="M9 12l2 2 4-4" />
-    </>
-  ),
-  visibility: (
-    <>
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
-      <circle cx="12" cy="12" r="3" />
-    </>
-  ),
-  policy: (
-    <>
-      <path d="M4 7h10M18 7h2M4 17h2M10 17h10" />
-      <circle cx="16" cy="7" r="2" />
-      <circle cx="8" cy="17" r="2" />
-    </>
-  ),
   check: <path d="M5 12l5 5 9-10" />,
+  review: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7.5v5.5" />
+      <path d="M12 16.5v.01" />
+    </>
+  ),
 };
  
 function Icon({ name }) {
@@ -121,7 +125,7 @@ function Icon({ name }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.75"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
@@ -132,110 +136,51 @@ function Icon({ name }) {
   );
 }
  
-function Arrow() {
+/* Hero artwork: a record of one access decision, read top to bottom as
+   request, checks, decision. Plain HTML so it stays sharp and readable. */
+function DecisionRecord() {
+  const { request, checks, outcome } = DECISION_EXAMPLE;
   return (
-    <svg className="btn-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-      <path d="M3 8h10M9 4l4 4-4 4" />
-    </svg>
-  );
-}
+    <figure className="record" aria-label="Example of one access decision">
+      <figcaption className="record-head">
+        <span>Example access decision</span>
+        <span className="tag">Illustration</span>
+      </figcaption>
  
-/* Static, decorative hero graphic: a shield inside a dial, with circuit
-   traces and four labelled nodes. No animation. */
-function HeroVisual() {
-  const cx = 600;
-  const cy = 190;
-  const ticks = Array.from({ length: 48 }, (_, i) => {
-    const angle = (i / 48) * Math.PI * 2;
-    const innerRadius = i % 4 === 0 ? 108 : 112;
-    return {
-      x1: (cx + Math.cos(angle) * 120).toFixed(2),
-      y1: (cy + Math.sin(angle) * 120).toFixed(2),
-      x2: (cx + Math.cos(angle) * innerRadius).toFixed(2),
-      y2: (cy + Math.sin(angle) * innerRadius).toFixed(2),
-    };
-  });
+      <div className="record-block">
+        <p className="record-label">Request</p>
+        <dl className="record-request">
+          {request.map(([term, value]) => (
+            <div key={term}>
+              <dt>{term}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
  
-  const nodes = [
-    [330, 120, 'Identity'],
-    [360, 270, 'Device'],
-    [870, 120, 'Network'],
-    [840, 270, 'Data'],
-  ];
+      <div className="record-block">
+        <p className="record-label">Checks</p>
+        <ul className="record-checks">
+          {checks.map((check) => (
+            <li className={`check check-${check.result}`} key={check.name}>
+              <Icon name={check.result === 'pass' ? 'check' : 'review'} />
+              <div>
+                <strong>{check.name}</strong>
+                <span>{check.detail}</span>
+              </div>
+              <span className="check-result">{check.result === 'pass' ? 'Passed' : 'Needs review'}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
  
-  return (
-    <div className="hero-visual" aria-hidden="true">
-      <svg viewBox="0 0 1200 320" focusable="false">
-        <defs>
-          <linearGradient id="traceFade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="470" y2="0">
-            <stop offset="0" stopColor="#10c46a" stopOpacity="0" />
-            <stop offset="1" stopColor="#10c46a" stopOpacity="0.55" />
-          </linearGradient>
-          <linearGradient id="shieldFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#f1f6f2" />
-            <stop offset="1" stopColor="#8fa296" />
-          </linearGradient>
-          <radialGradient id="coreFill" cx="50%" cy="40%" r="60%">
-            <stop offset="0" stopColor="#15402a" />
-            <stop offset="1" stopColor="#071510" />
-          </radialGradient>
- 
-          {/* Left-hand traces; the right side is a mirrored copy. */}
-          <g id="hero-traces">
-            <g fill="none" stroke="url(#traceFade)" strokeWidth="1.5">
-              <path d="M0 190H470" />
-              <path d="M0 120H80L120 160H250L280 190" />
-              <path d="M0 250H100L140 220H260L290 190" />
-              <path d="M0 70H150L200 120H316" />
-              <path d="M0 300H150L180 270H346" />
-              <path d="M344 120H400L440 160L470 190" />
-              <path d="M374 270H390L470 190" />
-            </g>
-            <g fill="#10c46a" fillOpacity="0.7" stroke="none">
-              <circle cx="120" cy="160" r="2.5" />
-              <circle cx="140" cy="220" r="2.5" />
-              <circle cx="250" cy="160" r="2.5" />
-              <circle cx="260" cy="220" r="2.5" />
-              <circle cx="80" cy="120" r="2.5" />
-              <circle cx="100" cy="250" r="2.5" />
-            </g>
-          </g>
-        </defs>
- 
-        <use href="#hero-traces" />
-        <use href="#hero-traces" transform="translate(1200 0) scale(-1 1)" />
- 
-        <circle cx={cx} cy={cy} r="130" fill="#050b08" stroke="#10c46a" strokeOpacity="0.25" />
-        <circle cx={cx} cy={cy} r="100" fill="#08130e" stroke="#10c46a" strokeOpacity="0.3" />
-        {ticks.map((t, i) => (
-          <line key={i} {...t} stroke="#10c46a" strokeOpacity="0.45" strokeWidth="1.5" />
-        ))}
-        <circle cx={cx} cy={cy} r="74" fill="url(#coreFill)" stroke="#10c46a" strokeOpacity="0.5" />
- 
-        <path
-          d="M600 150L636 162V190C636 214 620 228 600 236C580 228 564 214 564 190V162Z"
-          fill="url(#shieldFill)"
-        />
-        <path
-          d="M586 192l10 10 20-22"
-          fill="none"
-          stroke="#0b2a1a"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
- 
-        {nodes.map(([x, y, label]) => (
-          <g key={label}>
-            <circle cx={x} cy={y} r="14" fill="#0b1511" stroke="#10c46a" strokeOpacity="0.45" />
-            <circle cx={x} cy={y} r="3" fill="#10c46a" />
-            <text x={x} y={y + 34} textAnchor="middle">
-              {label}
-            </text>
-          </g>
-        ))}
-      </svg>
-    </div>
+      <div className="record-block record-outcome">
+        <p className="record-label">Decision</p>
+        <strong>{outcome.title}</strong>
+        <p>{outcome.detail}</p>
+      </div>
+    </figure>
   );
 }
  
@@ -309,81 +254,80 @@ function App() {
  
       <main id="main">
         <section className="hero">
-          <div className="container">
-            <p className="badge">Zero-trust security · Early access</p>
-            <h1>Trust nothing. Secure everything.</h1>
-            <p className="lead">
-              A zero-trust orchestration layer for teams that need total awareness, continuous
-              verification, and security that moves at the speed of their business.
-            </p>
-            <div className="hero-actions">
-              <a className="btn btn-primary" href="#contact">
-                Request access <Arrow />
-              </a>
-              <a className="btn btn-secondary" href="#platform">
-                Explore the platform
-              </a>
+          <div className="container hero-grid">
+            <div className="hero-copy">
+              <h1>Trust nothing. Secure everything.</h1>
+              <p className="lead">
+                A zero-trust orchestration layer for teams that need total awareness, continuous
+                verification, and security that moves at the speed of their business.
+              </p>
+              <div className="hero-actions">
+                <a className="btn btn-primary" href="#contact">
+                  Request access
+                </a>
+                <a className="btn btn-secondary" href="#platform">
+                  See how it works
+                </a>
+              </div>
+              <p className="hero-note">Private beta, version 0.1.0.</p>
             </div>
+            <DecisionRecord />
           </div>
-          <HeroVisual />
+        </section>
+ 
+        <section className="strip" aria-label="Key figures">
+          <dl className="container strip-grid">
+            {STATS.map(([value, label]) => (
+              <div className="stat" key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
  
         <section id="overview" className="section">
-          <div className="container overview-grid">
-            <div>
-              <p className="eyebrow">Overview</p>
-              <h2>Security without blind spots.</h2>
-              <p className="muted">
+          <div className="container split">
+            <h2>Security without blind spots.</h2>
+            <div className="prose">
+              <p>
                 AegisecOS replaces implicit trust with strict, context-aware access policies. Every
                 connection is authenticated, authorized, and encrypted — continuously.
               </p>
-              <p className="muted">
+              <p>
                 Built for modern environments, our platform gives security teams a clear signal
                 through the noise, so they can detect, respond, and adapt in real time.
               </p>
             </div>
-            <dl className="stats">
-              {STATS.map(([value, label]) => (
-                <div className="stat" key={label}>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
+          </div>
+        </section>
+ 
+        <section id="platform" className="section">
+          <div className="container">
+            <div className="split split-head">
+              <h2>One control plane. Every signal.</h2>
+              <p className="muted">Three primitives for a security posture that stays ahead of risk.</p>
+            </div>
+            <dl className="defs">
+              {MODULES.map((module) => (
+                <div className="def" key={module.title}>
+                  <dt>{module.title}</dt>
+                  <dd>{module.copy}</dd>
                 </div>
               ))}
             </dl>
           </div>
         </section>
  
-        <section id="platform" className="section">
-          <div className="container">
-            <div className="section-head">
-              <p className="eyebrow">Platform</p>
-              <h2>One control plane. Every signal.</h2>
-              <p className="muted">Three primitives for a security posture that stays ahead of risk.</p>
-            </div>
-            <div className="module-grid">
-              {MODULES.map((module) => (
-                <article className="card" key={module.title}>
-                  <div className="icon-box">
-                    <Icon name={module.icon} />
-                  </div>
-                  <h3>{module.title}</h3>
-                  <p className="muted">{module.copy}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
- 
         {TEAM.length > 0 && (
           <section id="team" className="section">
             <div className="container">
-              <div className="section-head">
-                <p className="eyebrow">Team</p>
+              <div className="split split-head">
                 <h2>The people behind AegisecOS.</h2>
               </div>
               <ul className="team-grid">
                 {TEAM.map((member) => (
-                  <li className="card" key={member.name}>
+                  <li className="panel" key={member.name}>
                     {member.photo && (
                       <img className="team-photo" src={member.photo} alt={`Portrait of ${member.name}`} />
                     )}
@@ -405,14 +349,13 @@ function App() {
         {CASE_STUDIES.length > 0 && (
           <section id="case-studies" className="section">
             <div className="container">
-              <div className="section-head">
-                <p className="eyebrow">Case studies</p>
+              <div className="split split-head">
                 <h2>Results from real deployments.</h2>
               </div>
-              <ul className="module-grid">
+              <ul className="team-grid">
                 {CASE_STUDIES.map((study) => (
-                  <li className="card" key={study.title}>
-                    <p className="eyebrow">{study.client}</p>
+                  <li className="panel" key={study.title}>
+                    <p className="muted">{study.client}</p>
                     <h3>{study.title}</h3>
                     <p className="muted">{study.summary}</p>
                     <a href={study.href}>Read the case study</a>
@@ -425,17 +368,18 @@ function App() {
  
         <section id="access" className="section">
           <div className="container">
-            <div className="section-head">
-              <p className="eyebrow">Access</p>
+            <div className="split split-head">
               <h2>Deploy on your terms.</h2>
             </div>
-            <div className="tier-grid">
+            <div className="tiers">
               {TIERS.map((tier) => (
-                <article className={`card tier${tier.featured ? ' featured' : ''}`} key={tier.title}>
-                  {tier.featured && <span className="tier-badge">Recommended</span>}
-                  <p className="tier-meta">{tier.meta}</p>
+                <article className={`panel tier${tier.featured ? ' featured' : ''}`} key={tier.title}>
+                  <p className="tier-meta">
+                    <span>{tier.meta}</span>
+                    {tier.featured && <span className="tag">Recommended</span>}
+                  </p>
                   <h3>{tier.title}</h3>
-                  <p className="tier-price">{tier.price}</p>
+                  <p className="muted">{tier.price}</p>
                   <ul className="feature-list">
                     {tier.features.map((feature) => (
                       <li key={feature}>
@@ -457,11 +401,10 @@ function App() {
         </section>
  
         <section id="contact" className="section">
-          <div className="container contact-grid">
+          <div className="container split">
             <div>
-              <p className="eyebrow">Contact</p>
               <h2>Request early access.</h2>
-              <p className="muted">
+              <p className="muted contact-copy">
                 Leave your work email and we will follow up as access opens. For enterprise or
                 security questions, email us directly.
               </p>
@@ -472,10 +415,10 @@ function App() {
               </p>
             </div>
  
-            <div className="card form-card">
+            <div className="panel form-panel">
               {status === 'success' ? (
                 <div role="status">
-                  <h3>Request received</h3>
+                  <h3>Access requested</h3>
                   <p className="muted">
                     We will contact you at <strong>{email.trim()}</strong> when early access opens.
                   </p>
@@ -499,7 +442,7 @@ function App() {
                   </button>
                   {status === 'error' && (
                     <p className="form-error" role="alert">
-                      We could not submit your request. Please try again, or email{' '}
+                      Your request did not send. Check your connection and try again, or email{' '}
                       <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
                     </p>
                   )}
@@ -563,3 +506,4 @@ function App() {
 }
  
 export default App;
+ 
