@@ -564,5 +564,3 @@ function App() {
 }
  
 export default App;
- 
-Claude finished the response
